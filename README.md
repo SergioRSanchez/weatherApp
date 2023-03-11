@@ -6,4 +6,4 @@
 <img src='./src/assets/capa.png'>
 
 <br>
-<a href='https://weather-app-psi-opal.vercel.app/'>Deploy</a>
+<a href='https://weather-app-psi-opal.vercel.app/' target='_blank'>Deploy</a>
