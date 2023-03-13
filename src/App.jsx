@@ -312,22 +312,22 @@ function App() {
               {
                 airQuality == '2'
                 &&
-                <p className='text-[#87EBCD] font-bold text-lg'>Justa</p>
+                <p className='text-blue-700 font-bold text-lg'>Justa</p>
               }
               {
                 airQuality == '3'
                 &&
-                <p className='text-[#87EBCD] font-bold text-lg'>Moderada</p>
+                <p className='text-[#F6C833] font-bold text-lg'>Moderada</p>
               }
               {
                 airQuality == '4'
                 &&
-                <p className='text-[#87EBCD] font-bold text-lg'>Ruim</p>
+                <p className='text-[#dbb85e] font-bold text-lg'>Ruim</p>
               }
               {
                 airQuality == '5'
                 &&
-                <p className='text-[#87EBCD] font-bold text-lg'>Péssima</p>
+                <p className='text-[#ee4343] font-bold text-lg'>Péssima</p>
               }
               {
                 airQuality == '1'
