@@ -6,6 +6,7 @@ import { ReactComponent as Humidity } from './assets/humidity.svg';
 import { ReactComponent as Rain } from './assets/rain.svg';
 import { ReactComponent as Leaf } from './assets/leaf.svg';
 import { ReactComponent as Time } from './assets/time.svg';
+import { ReactComponent as SunChart } from './assets/sunChart.svg';
 
 import closed from './assets/closed.png';
 import cloudy from './assets/cloudy.png';
@@ -56,7 +57,8 @@ function App() {
   const [ diaTres, setDiaTres ] = useState('-');
   const [ diaQuatro, setDiaQuatro ] = useState('-');
   const [ diaCinco, setDiaCinco ] = useState('-');
-  
+  const [ sunPercentage, setSunPercentage ] = useState(0);
+
 
 
   async function getWeatherData() {
@@ -96,6 +98,19 @@ function App() {
       setPrecipitation(parseFloat(data.rain['1h']))
     }
     setWeatherIcon(data.weather[0].description)
+
+    const dif = data.sys.sunset - data.sys.sunrise
+    const dif2 = data.dt - data.sys.sunrise
+    const percent = (dif2 / dif) * 100
+    if (percent >= 0 || percent <= 100) {
+      setSunPercentage(percent)
+    }
+    if (percent < 0) {
+      setSunPercentage(0)
+    }
+    if (percent > 100) {
+      setSunPercentage(100)
+    }
 
 
     const dateSunrise = new Date((data.sys.sunrise + 10800 + data.timezone) * 1000)
@@ -388,18 +403,19 @@ function App() {
               <Time />
               <p className='font-bold text-[#DAD8F7]'>Horário do sol</p>
             </div>
-            <div>
-              <div>
-                <svg className='h-[106px] w-[216px]'>
-                  <circle r='100' cx='108' stroke='#F6C833' className='fill-none rotate-180 translate-x-[216px] translate-y-[108px]' strokeDasharray='5' strokeDashoffset='0' strokeWidth='8'></circle>
-                  <line x1='8' y1='105' x2='208' y2='105' stroke='#F6C833' strokeWidth='1'></line>
-                </svg>
-                <h2 className='relative -top-[45px] left-[85px] text-white text-sm font-bold'>{time}</h2>
+            <div className='sun-chart-wrapper h-[110px]'>
+              <div className='sun-chart relative m-auto w-[216px] h-[216px]'>
+                <div className='h-[108px] overflow-hidden'><div style={{background: 'linear-gradient(180deg, rgba(251, 219, 96, 0.2) 0%, rgba(251, 219, 96, 0) 101.89%)', mask: 'linear-gradient(0deg, white 50%, transparent 0%)', webkitMask: 'linear-gradient(0deg, white 50%, transparent 0%)', transform: `rotate(calc(1.8deg * ${sunPercentage}))`}} className='w-[216px] h-[216px] block rounded-full transition-all duration-1000'></div></div>
+                <div className='chart'>
+                  <div style={{transform: `rotate(calc(1deg * (((100 - ${sunPercentage}) / -100) * 180))) translate(106px)`}} className='w-[12px] h-[12px] absolute bg-[#F6C833] rounded-full top-1/2 left-1/2 -m-[6px] transition-all duration-1000'></div>
+                  <SunChart className='absolute top-0'/>
+                </div>
+                <p className='text-white text-sm font-bold absolute top-1/4 left-1/2 -translate-x-1/2'>{time}</p>
               </div>
-              <div className='flex justify-between mt-3'>
-                <p className='text-xs text-white'>{sunrise}</p>
-                <p className='text-xs text-white'>{sunset}</p>
-              </div>
+            </div>
+            <div className='flex text-xs text-white align-middle flex-row justify-between w-[230px] max-w-[276px] -mt-6 sm:mt-0'>
+              <p>{sunrise}</p>
+              <p>{sunset}</p>
             </div>
           </div>
 
